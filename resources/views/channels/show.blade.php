@@ -33,6 +33,13 @@
                                 {{ $channel->name }}
                             </h4>
                             <p class="text-center">{{ $channel->description }}</p>
+                            <div class="text-center">
+                                <subscribe-button :channel="{{ $channel }}" :subscriptions="{{ $channel->subscriptions }}" inline-template>
+                                    <button @click="toggleSubscription" class="btn btn-danger">
+                                        @{{ owner ? '' : subscribed ? "Unsubsribe" : "Subscribe" }} @{{ subscriptions.length }} @{{ owner ? "Subsriber" : "" }}
+                                    </button>
+                                </subscribe-button>
+                            </div>
                         </div>
                         @if($channel->editable())
                             <input onchange="document.getElementById('update-channel-form').submit()" style="display: none" id="image" type="file" name="image">
