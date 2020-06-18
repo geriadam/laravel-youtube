@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Channel;
+use App\Video;
+use Illuminate\Http\Request;
+
+class UploadVideoController extends Controller
+{
+    public function index(Channel $channel)
+    {
+        return view('channels.upload', compact('channel'));
+    }
+
+    public function store(Channel $channel)
+    {
+        return $channel->videos()->create([
+            "title" => request()->title,
+            "path"  => request()->video->store("channels/{$channel->id}")
+        ]);
+    }
+}

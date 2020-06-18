@@ -33176,6 +33176,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 __webpack_require__(/*! ./components/subscribe-button */ "./resources/js/components/subscribe-button.js");
 
+__webpack_require__(/*! ./components/channel-uploads */ "./resources/js/components/channel-uploads.js");
+
 var app = new Vue({
   el: '#app'
 });
@@ -33205,6 +33207,47 @@ if (token) {
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+
+/***/ }),
+
+/***/ "./resources/js/components/channel-uploads.js":
+/*!****************************************************!*\
+  !*** ./resources/js/components/channel-uploads.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+Vue.component('channel-uploads', {
+  props: {
+    channel: {
+      type: Object,
+      required: true,
+      "default": function _default() {
+        return {};
+      }
+    }
+  },
+  data: function data() {
+    return {
+      selected: false,
+      videos: []
+    };
+  },
+  methods: {
+    upload: function upload() {
+      var _this = this;
+
+      this.selected = true;
+      this.videos = Array.from(this.$refs.videos.files);
+      var uploaders = this.videos.map(function (video) {
+        var form = new FormData();
+        form.append('video', video);
+        form.append('title', video.name);
+        return axios.post("/channels/".concat(_this.channel.id, "/videos"), form);
+      });
+    }
+  }
+});
 
 /***/ }),
 
