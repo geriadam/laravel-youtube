@@ -13,17 +13,23 @@
                 <div class="card p-3" v-else>
                     <div class="my-4" v-for="video in videos">
                         <div class="progress mb-3">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" :style="{ width: `${progress[video.name]}%` }" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" :style="{ width: `${video.percetage || progress[video.name]}%` }" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                                @{{ video.percetage ? video.percetage === 100 ? "Video Processing Complete" : "Processing" : "Uploading" }}
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <div class="d-flex justify-content-center align-items-center" style="height: 180px; color: white; font-size: 18px; background: #580808">
+                                <div v-if="!video.thumbnail" class="d-flex justify-content-center align-items-center" style="height: 180px; color: white; font-size: 18px; background: #580808">
                                     Loading thumbnail
                                 </div>
+                                <img v-else :src="video.thumbnail" style="width: 100%">
                             </div>
                             <div class="col-md-4">
-                                <h4 class="text-center">
-                                    @{{ video.name }}
+                                <a v-if="video.percetage && video.percetage === 100" target="_blank" :href="`/videos/${video.id}`">
+                                    @{{ video.title }}
+                                </a>
+                                <h4 v-else class="text-center">
+                                    @{{ video.title || video.name }}
                                 </h4>
                             </div>
                         </div>
