@@ -72,6 +72,46 @@
                     @endif
                 </div>
             </div>
+            <div class="card">
+                <div class="card-header">
+                    Video
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <th>#</th>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Views</th>
+                            <th>Status</th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            @foreach($videos as $video)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        <img src="{{ $video->thumbnail }}" width="40px" height="40px">
+                                    </td>
+                                    <td>{{ $video->title }}</td>
+                                    <td>{{ $video->views }}</td>
+                                    <td>{{ $video->percetage === 100 ? "Live" : "Processing" }}</td>
+                                    <td>
+                                        @if($video->percetage >= 100)
+                                            <a href="{{ route('video.show', $video->id) }}" class="btn btn-sm btn-info">
+                                                View
+                                            </a>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        <div class="row justify-content-center">
+                            {!! $videos->links() !!}
+                        </div>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
