@@ -13,6 +13,7 @@
                 <h6 class="mt-0">{{ comment.user.name }}</h6>
                 <small>{{ comment.body }}</small>
                 <replies :comment="comment"></replies>
+                <votes :default_votes="comment.votes" :entity_id="comment.id" :entity_owner="comment.user.id"></votes>
             </div>
         </div>
         <div class="text-center">

@@ -1744,6 +1744,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1808,6 +1809,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -21640,7 +21642,15 @@ var render = function() {
                 _vm._v(" "),
                 _c("small", [_vm._v(_vm._s(comment.body))]),
                 _vm._v(" "),
-                _c("replies", { attrs: { comment: comment } })
+                _c("replies", { attrs: { comment: comment } }),
+                _vm._v(" "),
+                _c("votes", {
+                  attrs: {
+                    default_votes: comment.votes,
+                    entity_id: comment.id,
+                    entity_owner: comment.user.id
+                  }
+                })
               ],
               1
             )
@@ -21709,27 +21719,40 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _vm._l(_vm.replies.data, function(reply) {
-        return _c("div", { staticClass: "media mt-3" }, [
-          _c(
-            "a",
-            { staticClass: "mr-3", attrs: { href: "#" } },
-            [
-              _c("avatar", {
-                staticClass: "mr-3",
-                attrs: { username: reply.user.name, size: 30 }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "media-body" }, [
-            _c("h6", { staticClass: "mt-0" }, [
-              _vm._v(_vm._s(reply.user.name))
+        return _c(
+          "div",
+          { staticClass: "media mt-3" },
+          [
+            _c(
+              "a",
+              { staticClass: "mr-3", attrs: { href: "#" } },
+              [
+                _c("avatar", {
+                  staticClass: "mr-3",
+                  attrs: { username: reply.user.name, size: 30 }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "media-body" }, [
+              _c("h6", { staticClass: "mt-0" }, [
+                _vm._v(_vm._s(reply.user.name))
+              ]),
+              _vm._v(" "),
+              _c("small", [_vm._v(_vm._s(reply.body))])
             ]),
             _vm._v(" "),
-            _c("small", [_vm._v(_vm._s(reply.body))])
-          ])
-        ])
+            _c("votes", {
+              attrs: {
+                default_votes: reply.votes,
+                entity_id: reply.id,
+                entity_owner: reply.user.id
+              }
+            })
+          ],
+          1
+        )
       }),
       _vm._v(" "),
       _vm.comment.repliesCount > 0 && _vm.replies.next_page_url
