@@ -13,7 +13,7 @@ class VoteController extends Controller
     {
         $entity = $this->getEntity($entityId);
 
-        return auth()->user()->toggleVote($entityId, $type);
+        return auth()->user()->toggleVote($entity, $type);
     }
 
     public function getEntity($entityId)
