@@ -1,8 +1,8 @@
 <template>
     <div class="card mt-5 p-5">
-        <div class="form-inline my-4 w-full">
-            <input type="text" class="form-control form-control-sm w-80">
-            <button class="btn btn-sm btn-primary">
+        <div v-if="auth" class="form-inline my-4 w-full">
+            <input v-model="newComment" type="text" class="form-control form-control-sm w-80">
+            <button @click="addComment" class="btn btn-sm btn-primary">
                 <small>Add comment</small>
             </button>
         </div>
@@ -12,8 +12,11 @@
             <div class="media-body">
                 <h6 class="mt-0">{{ comment.user.name }}</h6>
                 <small>{{ comment.body }}</small>
+                <div class="d-flex">
+                    <votes :default_votes="comment.votes" :entity_id="comment.id" :entity_owner="comment.user.id"></votes>
+                    <button class="btn btn-sm btn-default ml-2">Add Reply</button>
+                </div>
                 <replies :comment="comment"></replies>
-                <votes :default_votes="comment.votes" :entity_id="comment.id" :entity_owner="comment.user.id"></votes>
             </div>
         </div>
         <div class="text-center">
@@ -37,10 +40,16 @@
         mounted() {
             this.fetchComments()
         },
+        computed: {
+            auth() {
+                return __auth()
+            }
+        },
         data: () => ({
             comments: {
                 data: []
-            }
+            },
+            newComment: ''
         }),
         methods: {
             fetchComments() {
@@ -54,6 +63,21 @@
                             ...data.data
                         ]
                     };
+                })
+            },
+            addComment() {
+                if(! this.newComment) return
+
+                axios.post(`/comments/${this.video.id}`, {
+                    body: this.newComment
+                }).then(({data}) => {
+                    this.comments = {
+                        ...this.comments,
+                        data: [
+                            data,
+                            ...this.comments.data
+                        ]
+                    }
                 })
             }
         }

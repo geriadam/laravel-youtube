@@ -22,13 +22,14 @@ Route::resource('channels', 'ChannelController');
 
 Route::get('videos/{video}', 'VideoController@show')->name('video.show');
 Route::put('videos/{video}', 'VideoController@updateViews')->name('video.updateViews');
-Route::get('videos/{video}/comments', 'CommentController@index')->name('video.index');
+Route::get('videos/{video}/comments', 'CommentController@index')->name('video.comments.index');
 Route::get('comments/{comment}/replies', 'CommentController@show')->name('video.comment.show');
 Route::put('videos/{video}/update', 'VideoController@update')->name('video.update')->middleware(['auth']);
 
 
 Route::middleware(['auth'])
     ->group(function(){
+        Route::post('comments/{video}', 'CommentController@store')->name('video.comment.store');
         Route::post('votes/{entityId}/{type}', 'VoteController@vote');
         Route::post('channels/{channel}/videos', 'UploadVideoController@store');
         Route::get('channels/{channel}/videos', 'UploadVideoController@index')->name('channel.upload');
